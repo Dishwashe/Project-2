@@ -1,0 +1,58 @@
+import tkinter as tk
+import tkinter.ttk as ttk
+from tkinter import filedialog
+
+class BillingSystem:
+    def __init__(self, master):
+        self.master = master
+        self.master.title("Simple Billing System")
+
+        self.notebook = ttk.Notebook(master)
+        self.notebook.pack(fill="both", expand=True)
+
+        # "Transaction data file" tab
+        self.load_file_tab = ttk.Frame(self.notebook)
+        self.notebook.add(self.load_file_tab, text="Transaction data file")
+
+        self.load_file_label = ttk.Label(self.load_file_tab, text="Load Transaction Data from File")
+        self.load_file_label.pack(pady=10)
+
+        self.load_file_button = ttk.Button(self.load_file_tab, text="Choose File", command=self.load_file)
+        self.load_file_button.pack(pady=10)
+
+        # "Valid transaction and report" tab
+        self.valid_transaction_tab = ttk.Frame(self.notebook)
+        self.notebook.add(self.valid_transaction_tab, text="Validtransaction and report")
+
+        self.valid_transaction_label = ttk.Label(self.valid_transaction_tab, text="Valid Transaction and Report")
+        self.valid_transaction_label.pack(pady=10)
+
+        # "Transaction Number" tab
+        self.transaction_number_tab = ttk.Frame(self.notebook)
+        self.notebook.add(self.transaction_number_tab, text="Transaction Number")
+
+        self.transaction_number_label = ttk.Label(self.transaction_number_tab, text="Transaction Number")
+        self.transaction_number_label.pack(pady=10)
+
+        # "Help" tab
+        self.help_tab = ttk.Frame(self.notebook)
+        self.notebook.add(self.help_tab, text="Help")
+
+        self.help_label = ttk.Label(self.help_tab, text="Help")
+        self.help_label.pack(pady=10)
+
+    def load_file(self):
+        file_path = filedialog.askopenfilename()
+        if file_path:
+            with open(file_path, "r") as file:
+                for line in file:
+                    transaction_data = line.strip().split("_")
+                    if len(transaction_data) == 4:
+                        # process transaction data
+                        customer_name, customer_address, transaction_code, transaction_amount = transaction_data
+                        print(customer_name, customer_address, transaction_code, transaction_amount)
+
+if __name__ == "__main__":
+    root = tk.Tk()
+    billing_system = BillingSystem(root)
+    root.mainloop()
